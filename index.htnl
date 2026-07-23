@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shushnibera - লোকেশন ভেরিফাইড টেস্ট</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-top: 0;
+        }
+        .location-box {
+            background: #eaf2f8;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border-left: 5px solid #3498db;
+        }
+        .location-box p {
+            margin: 5px 0;
+        }
+        .pin-code {
+            font-weight: bold;
+            color: #e67e22;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(52,152,219,0.3);
+        }
+        button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52,152,219,0.4);
+        }
+        button:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: none;
+        }
+        #status.show {
+            display: block;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+        .test-area {
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px dashed #2ecc71;
+            border-radius: 15px;
+            background: #fafffe;
+            display: none;
+        }
+        .test-area.active {
+            display: block;
+        }
+        .test-area h3 {
+            color: #27ae60;
+            margin-top: 0;
+        }
+        .question {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .question p {
+            font-weight: 600;
+            margin-top: 0;
+        }
+        .question label {
+            display: block;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        .submit-btn {
+            background: #27ae60;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background: #219a52;
+        }
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .distance-info {
+            font-size: 13px;
+            color: #555;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📍 Shushnibera</h1>
+        <p class="subtitle">পশ্চিমবঙ্গ, ভারত</p>
+        <div class="location-box">
+            <p><strong>প্লাস কোড:</strong> J75V+V64</p>
+            <p><strong>অঞ্চল:</strong> Shushnibera, West Bengal</p>
+            <p><strong>অনুমোদিত ব্যাসার্ধ:</strong> ১০০ মিটার</p>
+        </div>
+
+        <button id="checkLocationBtn">📍 আমার লোকেশন যাচাই করুন</button>
+        <div id="status"></div>
+
+        <div id="testSection" class="test-area">
+            <h3>🎯 Shushnibera টেস্ট শুরু করুন</h3>
+            <p style="color:#555;">আপনি সঠিক লোকেশনে আছেন। নিচের প্রশ্নগুলোর উত্তর দিন।</p>
+            
+            <div class="question">
+                <p>প্রশ্ন ১: ভারতের পশ্চিমবঙ্গ রাজ্যের রাজধানী কোথায়?</p>
+                <label><input type="radio" name="q1" value="a"> মুম্বাই</label>
+                <label><input type="radio" name="q1" value="b"> দিল্লি</label>
+                <label><input type="radio" name="q1" value="c"> কলকাতা</label>
+                <label><input type="radio" name="q1" value="d"> চেন্নাই</label>
+            </div>
+
+            <div class="question">
+                <p>প্রশ্ন ২: Shushnibera কোন রাজ্যে অবস্থিত?</p>
+                <label><input type="radio" name="q2" value="a"> বিহার</label>
+                <label><input type="radio" name="q2" value="b"> ঝাড়খণ্ড</label>
+                <label><input type="radio" name="q2" value="c"> পশ্চিমবঙ্গ</label>
+                <label><input type="radio" name="q2" value="d"> ওড়িশা</label>
+            </div>
+
+            <div class="question">
+                <p>প্রশ্ন ৩: ৫ × ৬ = ?</p>
+                <label><input type="radio" name="q3" value="a"> ২৫</label>
+                <label><input type="radio" name="q3" value="b"> ৩০</label>
+                <label><input type="radio" name="q3" value="c"> ৩৫</label>
+                <label><input type="radio" name="q3" value="d"> ৪০</label>
+            </div>
+
+            <button class="submit-btn" onclick="submitTest()">📤 উত্তর জমা দিন</button>
+            <div id="result" style="margin-top:15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Shushnibera (J75V+V64)-এর আনুমানিক লোকেশন
+        // প্লাস কোড থেকে রূপান্তরিত (আপনি গুগল ম্যাপে ডান-ক্লিক করে সঠিক কো-অর্ডিনেট সংগ্রহ করুন)
+        const allowedLat = 23.35;    // আনুমানিক
+        const allowedLng = 86.75;   // আনুমানিক
+        const allowedRadius = 100;  // মিটার (প্রয়োজনমতো পরিবর্তন করুন)
+
+        const statusDiv = document.getElementById('status');
+        const testSection = document.getElementById('testSection');
+        const checkBtn = document.getElementById('checkLocationBtn');
+        const resultDiv = document.getElementById('result');
+
+        checkBtn.addEventListener('click', () => {
+            // বাটন ডিজেবল ও লোডার দেখানো
+            checkBtn.disabled = true;
+            checkBtn.innerHTML = '<span class="loader"></span> যাচাই করা হচ্ছে...';
+            statusDiv.className = 'show warning';
+            statusDiv.innerHTML = '⏳ আপনার লোকেশন সংগ্রহ করা হচ্ছে...';
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError, {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                });
+            } else {
+                statusDiv.className = 'show error';
+                statusDiv.innerHTML = '❌ আপনার ব্রাউজার লোকেশন সাপোর্ট করে না।';
+                checkBtn.disabled = false;
+                checkBtn.innerHTML = '📍 আমার লোকেশন যাচাই করুন';
+            }
+        });
+
+        function showPosition(position) {
+            const userLat = position.coords.latitude;
+            const userLng = position.coords.longitude;
+
+            const distance = getDistance(userLat, userLng, allowedLat, allowedLng);
+            
+            // রেজাল্ট দেখান
+            if (distance <= allowedRadius) {
+                statusDiv.className = 'show success';
+                statusDiv.innerHTML = `✅ আপনি সঠিক লোকেশনে আছেন (দূরত্ব: ${Math.round(distance)} মিটার)। পরীক্ষা শুরু করুন।`;
+                testSection.classList.add('active');
+                resultDiv.innerHTML = '';
+            } else {
+                statusDiv.className = 'show error';
+                statusDiv.innerHTML = `❌ দুঃখিত, আপনি Shushnibera এলাকার বাইরে (দূরত্ব: ${Math.round(distance)} মিটার)।<br><span class="distance-info">এই পরীক্ষা শুধুমাত্র J75V+V64 এলাকার জন্য প্রযোজ্য।</span>`;
+                testSection.classList.remove('active');
+            }
+
+            // বাটন রিস্টোর
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '📍 পুনরায় যাচাই করুন';
+        }
+
+        function showError(error) {
+            let msg = '';
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = '❌ লোকেশন অ্যাক্সেসের অনুমতি দিন।';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    msg = '❌ লোকেশন তথ্য পাওয়া যাচ্ছে না। দয়া করে GPS চালু করুন।';
+                    break;
+                case error.TIMEOUT:
+                    msg = '❌ অনুরোধের সময় শেষ হয়ে গেছে। আবার চেষ্টা করুন।';
+                    break;
+                default:
+                    msg = '❌ অজানা ত্রুটি ঘটেছে।';
+            }
+            statusDiv.className = 'show error';
+            statusDiv.innerHTML = msg;
+            testSection.classList.remove('active');
+            checkBtn.disabled = false;
+            checkBtn.innerHTML = '📍 পুনরায় চেষ্টা করুন';
+        }
+
+        // Haversine formula: দুই স্থানের মধ্যে দূরত্ব (মিটারে)
+        function getDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371e3;
+            const φ1 = lat1 * Math.PI/180;
+            const φ2 = lat2 * Math.PI/180;
+            const Δφ = (lat2 - lat1) * Math.PI/180;
+            const Δλ = (lon2 - lon1) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return R * c;
+        }
+
+        // টেস্ট জমা দেওয়ার ফাংশন (উদাহরণ)
+        function submitTest() {
+            const q1 = document.querySelector('input[name="q1"]:checked');
+            const q2 = document.querySelector('input[name="q2"]:checked');
+            const q3 = document.querySelector('input[name="q3"]:checked');
+
+            if (!q1 || !q2 || !q3) {
+                resultDiv.innerHTML = '<span style="color:#e67e22;">⚠️ দয়া করে সব প্রশ্নের উত্তর দিন।</span>';
+                return;
+            }
+
+            // সহজ উত্তর মিলানো (উদাহরণ)
+            let score = 0;
+            if (q1.value === 'c') score++;
+            if (q2.value === 'c') score++;
+            if (q3.value === 'b') score++;
+
+            resultDiv.innerHTML = `<div style="background:#d4edda; padding:15px; border-radius:10px; color:#155724;">
+                ✅ আপনার স্কোর: ${score}/৩ <br>
+                <span style="font-size:14px;">সঠিক উত্তর: ১-কলকাতা, ২-পশ্চিমবঙ্গ, ৩-৩০</span>
+            </div>`;
+        }
+    </script>
+</body>
+</html>
